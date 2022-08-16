@@ -1,0 +1,18 @@
+UC1 - Ability to create a payroll service database
+
+mysql> create database payrollservice;
+Query OK, 1 row affected (0.15 sec)
+
+mysql> show databases;
++-------------------------------+
+| Database                  | 
++-------------------------------+
+| addressbookservice   |
+| demo               	    |
+| information_schema |
+| mysql                      |
+| payrollservice           |
+| performance_schema |
+| sys                           |
++--------------------------------+
+7 rows in set (0.22 sec)

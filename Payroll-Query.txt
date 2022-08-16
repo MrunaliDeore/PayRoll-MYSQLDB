@@ -1,12 +1,9 @@
-UC8 - Ability to extend employee_payroll data to store employee information like employee phone, address and department - Ensure employee department is non nullable fields.
-- Add Default Value for address field.
+UC9 - Ability to extend employee_payroll table to have Basic Pay, Deductions, Taxable Pay, Income Tax, Net Pay
 
 mysql> alter table employeepayroll
-    -> add(phonenum int(10) not null,
-    ->address varchar(25) not null,
-    ->department varchar(25) not null);
-Query OK, 0 rows affected (0.32 sec)
-Records: 0  Duplicates: 0  Warnings: 0
+    -> add(basicpay int(25),deduction int(25),taxablepay int(25),incometax int(25),netpay int (25));
+Query OK, 0 rows affected, 3 warnings (0.32 sec)
+Records: 0  Duplicates: 0  Warnings: 3
 
 mysql> desc employeepayroll;
 +------------+-------------+------+-----+---------+-------+
@@ -20,22 +17,12 @@ mysql> desc employeepayroll;
 | phonenum   | int         | NO   |     | NULL    |       |
 | address    | varchar(35) | NO   |     | NULL    |       |
 | department | varchar(25) | NO   |     | NULL    |       |
+| basicpay   | int         | YES  |     | NULL    |       |
+| deduction  | int         | YES  |     | NULL    |       |
+| taxablepay | int         | YES  |     | NULL    |       |
+| incometax  | int         | YES  |     | NULL    |       |
+| netpay     | int         | YES  |     | NULL    |       |
 +------------+-------------+------+-----+---------+-------+
-8 rows in set (0.01 sec)
+13 rows in set (0.01 sec)
 
-mysql> update employeepayroll
-    -> set address='Nashik';
-Query OK, 5 rows affected (0.18 sec)
-Rows matched: 5  Changed: 5  Warnings: 0
 
-mysql> select * from employeepayroll;
-+----+---------+--------+------------+--------+----------+---------+------------+
-| id | name    | salary | startdate  | gender | phonenum | address | department |
-+----+---------+--------+------------+--------+----------+---------+------------+
-|  1 | Mohan   |  10000 | 2022-08-14 | M      |        0 | Nashik  |            |
-|  2 | Vidya   |  25000 | 2022-08-10 | F      |        0 | Nashik  |            |
-|  3 | palak   |   2500 | 2022-08-05 | F      |        0 | Nashik  |            |
-|  4 | Neha    |  15000 | 2022-08-01 | F      |        0 | Nashik  |            |
-|  5 | Roshani |   1500 | 2022-08-03 | F      |        0 | Nashik  |            |
-+----+---------+--------+------------+--------+----------+---------+------------+
-5 rows in set (0.00 sec)

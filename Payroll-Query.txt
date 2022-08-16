@@ -1,36 +1,41 @@
-UC6 - Ability to add Gender to Employee Payroll Table and Update the Rows to reflect the correct Employee Gender
+UC7 - Ability to find sum, average, min, max and number of male and female employees
 
-mysql> alter table employeepayroll
-    -> add gender varchar(20);
-Query OK, 0 rows affected (1.18 sec)
-Records: 0  Duplicates: 0  Warnings: 0
+mysql> select sum(salary)
+    -> from employeepayroll
+    -> where gender='F'
+    -> group by gender;
++------------------+
+| sum(salary) |
++------------------+
+|       44000 |
++------------------+
+1 row in set (0.05 sec)
 
-mysql> select * from employeepayroll;
-+----+-------------+-----------+-------------------+------------+
-| id | name    | salary   | startdate      | gender |
-+----+--------------+-----------+------------------+------------+
-|  1 | Mohan   |  10000 | 2022-08-14 | NULL   |
-|  2 | Vidya    |  25000 | 2022-08-10 | NULL   |
-|  3 | palak    |   2500 | 2022-08-05 | NULL   |
-|  4 | Neha    |  15000 | 2022-08-01 | NULL   |
-|  5 | Roshani |   1500 | 2022-08-03 | NULL   |
-+----+------------+------------+------------------+-------------+
-5 rows in set (0.00 sec)
+mysql> select count(*)
+    -> from employeepayroll;
++--------------+
+| count(*) |
++--------------+
+|        5     |
++--------------+
+1 row in set (0.04 sec)
 
-mysql> update employeepayroll
-    -> set gender='F'
-    -> where name='Vidya' or name='palak' or name='Neha' or name='Roshani';
-Query OK, 4 rows affected (0.17 sec)
-Rows matched: 4  Changed: 4  Warnings: 0
+mysql> select max(salary)
+    -> from employeepayroll;
++------------------+
+| max(salary) |
++------------------+
+|       25000  |
++------------------+
+1 row in set (0.06 sec)
 
-mysql> select * from employeepayroll;
-+----+--------------+----------+-------------------+------------+
-| id | name     | salary | startdate       | gender |
-+----+--------------+----------+-------------------+------------+
-|  1 | Mohan   |  10000 | 2022-08-14 | M        |
-|  2 | Vidya    |  25000 | 2022-08-10 | F         |
-|  3 | palak     |   2500 | 2022-08-05 | F         |
-|  4 | Neha     |  15000 | 2022-08-01 | F         |
-|  5 | Roshani |   1500  | 2022-08-03 | F         |
-+----+-------------+-----------+-------------------+------------+
-5 rows in set (0.00 sec)
+mysql> select min(salary)
+    -> from employeepayroll
+    -> where gender='F'
+    -> group by gender;
++------------------+
+| min(salary)  |
++------------------+
+|        1500   |
++------------------+
+1 row in set (0.00 sec)

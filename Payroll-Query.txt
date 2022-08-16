@@ -1,41 +1,41 @@
-UC7 - Ability to find sum, average, min, max and number of male and female employees
+UC8 - Ability to extend employee_payroll data to store employee information like employee phone, address and department - Ensure employee department is non nullable fields.
+- Add Default Value for address field.
 
-mysql> select sum(salary)
-    -> from employeepayroll
-    -> where gender='F'
-    -> group by gender;
-+------------------+
-| sum(salary) |
-+------------------+
-|       44000 |
-+------------------+
-1 row in set (0.05 sec)
+mysql> alter table employeepayroll
+    -> add(phonenum int(10) not null,
+    ->address varchar(25) not null,
+    ->department varchar(25) not null);
+Query OK, 0 rows affected (0.32 sec)
+Records: 0  Duplicates: 0  Warnings: 0
 
-mysql> select count(*)
-    -> from employeepayroll;
-+--------------+
-| count(*) |
-+--------------+
-|        5     |
-+--------------+
-1 row in set (0.04 sec)
+mysql> desc employeepayroll;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| id         | int         | NO   | PRI | NULL    |       |
+| name       | varchar(25) | NO   |     | NULL    |       |
+| salary     | int         | NO   |     | NULL    |       |
+| startdate  | date        | NO   |     | NULL    |       |
+| gender     | varchar(20) | YES  |     | NULL    |       |
+| phonenum   | int         | NO   |     | NULL    |       |
+| address    | varchar(35) | NO   |     | NULL    |       |
+| department | varchar(25) | NO   |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
 
-mysql> select max(salary)
-    -> from employeepayroll;
-+------------------+
-| max(salary) |
-+------------------+
-|       25000  |
-+------------------+
-1 row in set (0.06 sec)
+mysql> update employeepayroll
+    -> set address='Nashik';
+Query OK, 5 rows affected (0.18 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
 
-mysql> select min(salary)
-    -> from employeepayroll
-    -> where gender='F'
-    -> group by gender;
-+------------------+
-| min(salary)  |
-+------------------+
-|        1500   |
-+------------------+
-1 row in set (0.00 sec)
+mysql> select * from employeepayroll;
++----+---------+--------+------------+--------+----------+---------+------------+
+| id | name    | salary | startdate  | gender | phonenum | address | department |
++----+---------+--------+------------+--------+----------+---------+------------+
+|  1 | Mohan   |  10000 | 2022-08-14 | M      |        0 | Nashik  |            |
+|  2 | Vidya   |  25000 | 2022-08-10 | F      |        0 | Nashik  |            |
+|  3 | palak   |   2500 | 2022-08-05 | F      |        0 | Nashik  |            |
+|  4 | Neha    |  15000 | 2022-08-01 | F      |        0 | Nashik  |            |
+|  5 | Roshani |   1500 | 2022-08-03 | F      |        0 | Nashik  |            |
++----+---------+--------+------------+--------+----------+---------+------------+
+5 rows in set (0.00 sec)

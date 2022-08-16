@@ -1,13 +1,25 @@
-UC4 - Ability to retrieve all the employee payroll data that is added to payroll service database
+UC5 - Ability to retrieve salary data for a particular employee as well as all employees who have joined in a particular data range from the
+ payroll service database
 
-mysql> select * from employeepayroll;
-+----+--------------+-----------+-----------------+
-| id | name     | salary | startdate      |
-+----+--------------+-----------+-----------------+
-|  1 | Mohan   |  10000 | 2022-08-14 |
-|  2 | Vidya    |  25000 | 2022-08-10 |
-|  3 | palak    |   2500  | 2022-08-05 |
-|  4 | Neha    |  15000  | 2022-08-01 |
-|  5 | Roshani|   1500   | 2022-08-03 |
-+----+------------+-------------+------------------+
-5 rows in set (0.00 sec)
+mysql> select salary
+    -> from employeepayroll
+    -> where name='mohan';
++-----------+
+| salary  |
++-----------+
+|  10000 |
++----------+
+1 row in set (0.04 sec)
+
+mysql> select *
+    -> from employeepayroll
+    -> where startdate between cast('2022-08-3' as date) and date(now());
++----+--------------+----------+--------------------+
+| id | name     | salary  | startdate       |
++----+--------------+----------+--------------------+
+|  1 | Mohan   |  10000  | 2022-08-14 |
+|  2 | Vidya     |  25000 | 2022-08-10 |
+|  3 | palak     |   2500  | 2022-08-05 |
+|  5 | Roshani |   1500   | 2022-08-03 |
++----+-------------+-------------+-------------------+
+4 rows in set (0.00 sec)

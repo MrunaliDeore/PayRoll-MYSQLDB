@@ -1,0 +1,239 @@
+UC1 - Ability to create a payroll service database
+
+mysql> create database payrollservice;
+Query OK, 1 row affected (0.15 sec)
+
+mysql> show databases;
++-------------------------------+
+| Database                  | 
++-------------------------------+
+| addressbookservice   |
+| demo               	    |
+| information_schema |
+| mysql                      |
+| payrollservice           |
+| performance_schema |
+| sys                           |
++--------------------------------+
+7 rows in set (0.22 sec)
+
+UC2 - Ability to create a employee payroll table in the payroll service database to manage employee payrolls
+
+mysql> use payrollservice;
+Database changed
+mysql> create table employeepayroll(
+    -> id int(5) not null primary key,
+    -> name varchar(25) not null,
+    -> salary int(25) not null,
+    -> startdate date not null);
+Query OK, 0 rows affected, 2 warnings (1.73 sec)
+
+
+UC3 - Ability to create employee payroll data in the payroll service database as part of CRUD Operation
+
+mysql> insert into employeepayroll values(1,'Mohan',10000,'2022-8-14');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into employeepayroll values(2,'Vidya',25000,'2022-8-10');
+Query OK, 1 row affected (0.11 sec)
+
+mysql> insert into employeepayroll values(3,'palak',2500,'2022-8-5');
+Query OK, 1 row affected (0.17 sec)
+
+mysql> insert into employeepayroll values(4,'Neha',15000,'2022-8-1');
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert into employeepayroll values(5,'Roshani',1500,'2022-8-3');
+Query OK, 1 row affected (0.05 sec)
+
+
+UC4 - Ability to retrieve all the employee payroll data that is added to payroll service database
+
+mysql> select * from employeepayroll;
++----+--------------+-----------+-----------------+
+| id | name     | salary | startdate      |
++----+--------------+-----------+-----------------+
+|  1 | Mohan   |  10000 | 2022-08-14 |
+|  2 | Vidya    |  25000 | 2022-08-10 |
+|  3 | palak    |   2500  | 2022-08-05 |
+|  4 | Neha    |  15000  | 2022-08-01 |
+|  5 | Roshani|   1500   | 2022-08-03 |
++----+------------+-------------+------------------+
+5 rows in set (0.00 sec)
+
+
+UC5 - Ability to retrieve salary data for a particular employee as well as all employees who have joined in a particular data range from the payroll service database
+
+mysql> select salary
+    -> from employeepayroll
+    -> where name='mohan';
++-----------+
+| salary  |
++-----------+
+|  10000 |
++----------+
+1 row in set (0.04 sec)
+
+mysql> select *
+    -> from employeepayroll
+    -> where startdate between cast('2022-08-3' as date) and date(now());
++----+--------------+----------+--------------------+
+| id | name     | salary  | startdate       |
++----+--------------+----------+--------------------+
+|  1 | Mohan   |  10000  | 2022-08-14 |
+|  2 | Vidya     |  25000 | 2022-08-10 |
+|  3 | palak     |   2500  | 2022-08-05 |
+|  5 | Roshani |   1500   | 2022-08-03 |
++----+-------------+-------------+-------------------+
+4 rows in set (0.00 sec)
+
+UC6 - Ability to add Gender to Employee Payroll Table and Update the Rows to reflect the correct Employee Gender
+
+mysql> alter table employeepayroll
+    -> add gender varchar(20);
+Query OK, 0 rows affected (1.18 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from employeepayroll;
++----+-------------+-----------+-------------------+------------+
+| id | name    | salary   | startdate      | gender |
++----+--------------+-----------+------------------+------------+
+|  1 | Mohan   |  10000 | 2022-08-14 | NULL   |
+|  2 | Vidya    |  25000 | 2022-08-10 | NULL   |
+|  3 | palak    |   2500 | 2022-08-05 | NULL   |
+|  4 | Neha    |  15000 | 2022-08-01 | NULL   |
+|  5 | Roshani |   1500 | 2022-08-03 | NULL   |
++----+------------+------------+------------------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> update employeepayroll
+    -> set gender='F'
+    -> where name='Vidya' or name='palak' or name='Neha' or name='Roshani';
+Query OK, 4 rows affected (0.17 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql> select * from employeepayroll;
++----+--------------+----------+-------------------+------------+
+| id | name     | salary | startdate       | gender |
++----+--------------+----------+-------------------+------------+
+|  1 | Mohan   |  10000 | 2022-08-14 | M        |
+|  2 | Vidya    |  25000 | 2022-08-10 | F         |
+|  3 | palak     |   2500 | 2022-08-05 | F         |
+|  4 | Neha     |  15000 | 2022-08-01 | F         |
+|  5 | Roshani |   1500  | 2022-08-03 | F         |
++----+-------------+-----------+-------------------+------------+
+5 rows in set (0.00 sec)
+
+
+UC7 - Ability to find sum, average, min, max and number of male and female employees
+
+mysql> select sum(salary)
+    -> from employeepayroll
+    -> where gender='F'
+    -> group by gender;
++------------------+
+| sum(salary) |
++------------------+
+|       44000 |
++------------------+
+1 row in set (0.05 sec)
+
+mysql> select count(*)
+    -> from employeepayroll;
++--------------+
+| count(*) |
++--------------+
+|        5     |
++--------------+
+1 row in set (0.04 sec)
+
+mysql> select max(salary)
+    -> from employeepayroll;
++------------------+
+| max(salary) |
++------------------+
+|       25000  |
++------------------+
+1 row in set (0.06 sec)
+
+mysql> select min(salary)
+    -> from employeepayroll
+    -> where gender='F'
+    -> group by gender;
++------------------+
+| min(salary)  |
++------------------+
+|        1500   |
++------------------+
+1 row in set (0.00 sec)
+
+UC8 - Ability to extend employee_payroll data to store employee information like employee phone, address and department - Ensure employee department is non nullable fields.
+- Add Default Value for address field.
+
+mysql> alter table employeepayroll
+    -> add(phonenum int(10) not null,
+    ->address varchar(25) not null,
+    ->department varchar(25) not null);
+Query OK, 0 rows affected (0.32 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employeepayroll;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| id         | int         | NO   | PRI | NULL    |       |
+| name       | varchar(25) | NO   |     | NULL    |       |
+| salary     | int         | NO   |     | NULL    |       |
+| startdate  | date        | NO   |     | NULL    |       |
+| gender     | varchar(20) | YES  |     | NULL    |       |
+| phonenum   | int         | NO   |     | NULL    |       |
+| address    | varchar(35) | NO   |     | NULL    |       |
+| department | varchar(25) | NO   |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+
+mysql> update employeepayroll
+    -> set address='Nashik';
+Query OK, 5 rows affected (0.18 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> select * from employeepayroll;
++----+---------+--------+------------+--------+----------+---------+------------+
+| id | name    | salary | startdate  | gender | phonenum | address | department |
++----+---------+--------+------------+--------+----------+---------+------------+
+|  1 | Mohan   |  10000 | 2022-08-14 | M      |        0 | Nashik  |            |
+|  2 | Vidya   |  25000 | 2022-08-10 | F      |        0 | Nashik  |            |
+|  3 | palak   |   2500 | 2022-08-05 | F      |        0 | Nashik  |            |
+|  4 | Neha    |  15000 | 2022-08-01 | F      |        0 | Nashik  |            |
+|  5 | Roshani |   1500 | 2022-08-03 | F      |        0 | Nashik  |            |
++----+---------+--------+------------+--------+----------+---------+------------+
+5 rows in set (0.00 sec)
+
+UC9 - Ability to extend employee_payroll table to have Basic Pay, Deductions, Taxable Pay, Income Tax, Net Pay
+
+mysql> alter table employeepayroll
+    -> add(basicpay int(25),deduction int(25),taxablepay int(25),incometax int(25),netpay int (25));
+Query OK, 0 rows affected, 3 warnings (0.32 sec)
+Records: 0  Duplicates: 0  Warnings: 3
+
+mysql> desc employeepayroll;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| id         | int         | NO   | PRI | NULL    |       |
+| name       | varchar(25) | NO   |     | NULL    |       |
+| salary     | int         | NO   |     | NULL    |       |
+| startdate  | date        | NO   |     | NULL    |       |
+| gender     | varchar(20) | YES  |     | NULL    |       |
+| phonenum   | int         | NO   |     | NULL    |       |
+| address    | varchar(35) | NO   |     | NULL    |       |
+| department | varchar(25) | NO   |     | NULL    |       |
+| basicpay   | int         | YES  |     | NULL    |       |
+| deduction  | int         | YES  |     | NULL    |       |
+| taxablepay | int         | YES  |     | NULL    |       |
+| incometax  | int         | YES  |     | NULL    |       |
+| netpay     | int         | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+13 rows in set (0.01 sec)
+
+

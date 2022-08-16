@@ -1,10 +1,16 @@
-UC2 - Ability to create a employee payroll table in the payroll service database to manage employee payrolls
+UC3 - Ability to create employee payroll data in the payroll service database as part of CRUD Operation
 
-mysql> use payrollservice;
-Database changed
-mysql> create table employeepayroll(
-    -> id int(5) not null primary key,
-    -> name varchar(25) not null,
-    -> salary int(25) not null,
-    -> startdate date not null);
-Query OK, 0 rows affected, 2 warnings (1.73 sec)
+mysql> insert into employeepayroll values(1,'Mohan',10000,'2022-8-14');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into employeepayroll values(2,'Vidya',25000,'2022-8-10');
+Query OK, 1 row affected (0.11 sec)
+
+mysql> insert into employeepayroll values(3,'palak',2500,'2022-8-5');
+Query OK, 1 row affected (0.17 sec)
+
+mysql> insert into employeepayroll values(4,'Neha',15000,'2022-8-1');
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert into employeepayroll values(5,'Roshani',1500,'2022-8-3');
+Query OK, 1 row affected (0.05 sec)
